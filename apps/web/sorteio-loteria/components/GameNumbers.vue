@@ -1,5 +1,17 @@
 <template>
   <div>
+    <v-row>
+      <v-col cols="12" class="d-flex flex-wrap justify-center">
+        <h1>Como Jogar</h1>
+        <p style="text-align: center">
+          A Mega-Sena dos Guri paga milhões para o acertador dos 6 números
+          sorteados (brincadeira kkk). O jogo consiste em 60 números disponíveis
+          no volante de a​postas. O jogador deve marcar 6 números no volante e
+          clicar em sortear. O Jogo irá lhe informar o resutado do sorteio e a
+          porcentagem de acertos da sua aposta. Boa Sorte!!!
+        </p>
+      </v-col>
+    </v-row>
     <v-row no-gutters>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
         <v-btn
@@ -15,7 +27,33 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
-        {{ selectedNumbers }}
+        <span>Numeros Selecionados:</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="d-flex flex-wrap justify-center">
+        <v-btn
+          :ripple="false"
+          depressed
+          class="ma-1"
+          fab
+          v-for="(number, i) in 6"
+          color="#21986a"
+          :key="i"
+          style="cursor: default"
+          >{{ mySelectedNumbers[i] }}</v-btn
+        >
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="d-flex flex-wrap justify-center">
+        <v-btn
+          width="360"
+          :disabled="mySelectedNumbers.length <= 5"
+          color="#FF9F0E"
+          class="ma-1"
+          >Sortear</v-btn
+        >
       </v-col>
     </v-row>
   </div>
@@ -31,7 +69,6 @@ export default class Numbers extends Vue {
   isSelectedNumber(num: number) {
     return this.selectedNumbers.some((e) => e === num);
   }
-
   toggleGameNumber(num: number) {
     if (this.selectedNumbers.some((e) => e === num)) {
       this.removeNumberFromSelected(num);
@@ -49,7 +86,6 @@ export default class Numbers extends Vue {
       }
     }
   }
-
   get gameNumbers(): Array<number> {
     let initNumbers: Array<number> = [];
     for (let num: number = 1; num <= 60; num++) {
@@ -57,11 +93,14 @@ export default class Numbers extends Vue {
     }
     return initNumbers;
   }
+  get mySelectedNumbers(): Array<number> {
+    return this.selectedNumbers.sort((a, b) => a - b);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .btn-active {
-  background-color: #21986A !important;
+  border: 3px solid #21986a !important;
 }
 </style>
